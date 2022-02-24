@@ -3,10 +3,10 @@ import math
 from pyclass.Position import Position
 
 
-class Sprite:
+class Sprite3D:
 
     # Инициализация спрайта
-    def __init__(self, x, y, z=0, size=1, hp=1, angle=270, spriteGroup=None, master=None, fill=None):
+    def __init__(self, x, y, z, size, hp=1, angle=270, spriteGroup=None, master=None, fill=None):
         self.canvas = master
         self.position = Position(x, y, z)
         self._animations = ["stand"]
@@ -17,26 +17,9 @@ class Sprite:
         self.spriteGroup = spriteGroup
         self.animation = "stand"
         self.fill = fill
-        self.always_show_hp_indicator = False
 
         if spriteGroup:
             spriteGroup.add(self)
-
-    def showDisplayHP(self):
-        self.always_show_hp_indicator = True
-
-    def hideDisplayHP(self):
-        self.always_show_hp_indicator = False
-
-    def displayHP(self):
-        self.canvas.create_rectangle(self.getX() - self.size,
-                                     self.getY() - self.size - 8,
-                                     self.getX() - self.size + self.size * 2 * self.hp // self.maxhp,
-                                     self.getY() - self.size - 16,
-                                     width=0, fill='red')
-        self.canvas.create_rectangle(self.getX() - self.size, self.getY() - self.size - 8,
-                                     self.getX() + self.size, self.getY() - self.size - 16,
-                                     width=3)
 
     # Отображение спрайта
     def display(self):
@@ -54,18 +37,11 @@ class Sprite:
 
     # Переместить спрайт относительно угла
     def moveTowardsAngle(self, dist):
-        self.position.moveBy(dist * math.cos(math.radians(self.angle)), dist * math.sin(math.radians(self.angle)))
+        pass
 
     # Установить позицию спрайта
-    def moveTo(self, x, y):
-        self.position.moveTo(x, y)
-
-    # Установить анимацию спрайта
-    def setAnimation(self, string):
-        global _animations
-        self.animation = string
-        if string not in self._animations:
-            self.animation = "stand"
+    def moveTo(self, x, y, z):
+        self.position.moveTo(x, y, z)
 
     # Установить поворот спрайта на указанный градус
     def setAngle(self, angle):
@@ -98,8 +74,9 @@ class Sprite:
     def isCollided(self, other):
         xRange = abs(self.getX() - other.getX())
         yRange = abs(self.getY() - other.getY())
-        return xRange + yRange <= 2 * (self.size + other.size)
-        #return xRange <= self.size + other.size and yRange <= self.size + other.size
+        zRange = abs(self.getZ() - other.getZ())
+
+        return xRange + yRange + zRange <= 3 * (self.size + other.size)
 
     def damage(self, value):
         self.hp -= value

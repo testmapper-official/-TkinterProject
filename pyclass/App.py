@@ -171,7 +171,6 @@ class App(tk.Tk):
 
         self.canvas.display()
 
-        print(self.enemyGroup.getArray())
         self.timer = self.after(10, self.run)
 
     # Уничтожение приложения
