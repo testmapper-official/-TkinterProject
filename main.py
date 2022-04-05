@@ -1,7 +1,7 @@
-from pyclass.App import App
+from pyclass.AppFrame4 import AppFrame
 import sys
 
 # Запуск приложения
 if __name__ == '__main__':
-    root = App()
+    root = AppFrame()
     sys.exit()
