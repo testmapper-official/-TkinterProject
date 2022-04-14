@@ -52,7 +52,8 @@ class Dialog(tk.Frame):
                 correct = False
         elif self.type == "Checkbutton":
             for i in range(len(self.mainVar)):
-                if self.main[i]['text'] in self.answer and not self.mainVar[i].get():
+                if self.main[i]['text'] in self.answer and not self.mainVar[i].get() or \
+                        self.main[i]['text'] not in self.answer and self.mainVar[i].get():
                     correct = False
                     break
         elif self.type == "Radiobutton":
@@ -73,4 +74,3 @@ class Dialog(tk.Frame):
         self.destroy()
         self.master.QAs.pop(0)
         self.master.next()
-
